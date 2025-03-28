@@ -1,0 +1,36 @@
+services:
+  frontend:
+    build: frontend/
+    ports:
+      - "80:80"
+    networks:
+      - appnetwork
+  backend:
+    build: api-backend/
+    # use port 3000 for backend because 80 is already in use by frontend on the localhost
+    ports:
+      - "3000:80"
+    networks:
+      - appnetwork
+    environment:
+      DB_USERNAME: "reviews_app_user"
+      DB_PASSWORD: "crackers"
+      # docker compose creates local dns name that matches name of the container service
+      DB_ENDPOINT: "dbcontainer"
+      DB_NAME: "reviews_db"
+  dbcontainer:
+    image: "mysql:8"
+    environment:
+      MYSQL_PASSWORD: "crackers"
+      MYSQL_USER: "reviews_app_user"
+      MYSQL_DATABASE: "reviews_db"
+      MYSQL_ROOT_PASSWORD: "admin"
+    networks:
+      - appnetwork
+    # Note: still need to run Database schema creation script inside container for the app to fully function.
+    ## docker exec -it reviews-app-base-dbcontainer-1 bash
+    ## mysql -h localhost -u reviews_app_user -p
+    ## USE reviews_db;
+    ## copy paste and run the SQL script content (database/db-schema-creation.sql)
+networks:
+  appnetwork:

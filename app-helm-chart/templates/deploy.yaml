@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  labels:
+    app: {{ .Values.appLabel }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel }}
+    spec:
+      containers:
+        - name: {{ .Values.appLabel }}
+          # imagePullPolicy: Always
+          image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.port }}
+          env:
+            {{- range .Values.appConfig.secrets }}
+            - name: {{ .env_name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret_name }}
+                  key: {{ .key_name }}
+            {{- end }}
+            {{- range .Values.appConfig.envVars }}
+            - name: {{ .env_name }}
+              value: {{ .env_value }}
+            {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.appName }}-svc"
+spec:
+  selector:
+    app: {{ .Values.appLabel }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}
+  type: ClusterIP
+---
+{{ if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Values.appName }}-ingress"
+spec:
+  rules:
+  - host: {{ .Values.hostname }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: "{{ .Values.appName }}-svc"
+            port:
+              number: {{ .Values.port }}
+  ingressClassName: nginx
+  {{ if .Values.tls.enabled }}
+  tls:
+  - hosts:
+      - {{ .Values.hostname }}
+    # name of tls secret created in the 1st step
+    secretName: {{ .Values.tls.secretName }}
+  {{ end }}
+{{ end }}

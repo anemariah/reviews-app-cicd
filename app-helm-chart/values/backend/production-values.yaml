@@ -1,0 +1,27 @@
+appName: reviews-app-backend
+appLabel: backend
+replicaCount: 4
+image:
+  repo: 485669235563.dkr.ecr.us-east-1.amazonaws.com/reviews-app-backend
+port: 80
+hostname: reviews-api.exchangeweb.net
+ingress:
+  enabled: true
+appConfig:
+  secrets:
+  - env_name: DB_USERNAME
+    key_name: MYSQL_USER
+    secret_name: reviews-app-db-secret
+  - env_name: DB_PASSWORD
+    key_name: MYSQL_PASSWORD
+    secret_name: reviews-app-db-secret
+  - env_name: DB_ENDPOINT
+    key_name: MYSQL_ENDPOINT
+    secret_name: reviews-app-db-secret
+  - env_name: DB_NAME
+    key_name: MYSQL_DATABASE
+    secret_name: reviews-app-db-secret
+  envVars: []
+tls:
+  enabled: true
+  secretName: exchangeweb.net-tls

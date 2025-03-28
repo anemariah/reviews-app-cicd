@@ -1,0 +1,17 @@
+appName: reviews-app-frontend
+appLabel: frontend
+replicaCount: 1
+image:
+  repo: 834786370659.dkr.ecr.us-east-1.amazonaws.com/reviews-app-frontend
+port: 80
+ingress:
+  enabled: true
+hostname: reviews-dev.exchangeweb.net
+appConfig:
+  secrets: []
+  envVars:
+  - env_name: BACKEND_ENDPOINT
+    env_value: "https://reviews-api-dev.exchangeweb.net:443"
+tls:
+  enabled: true
+  secretName: exchangeweb.net-tls
