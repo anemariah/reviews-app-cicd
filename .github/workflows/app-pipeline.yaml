@@ -9,8 +9,7 @@ on:
        - 'feature/**'
 
 jobs:
-  #specify Runner details:Self-hosted or GitHub Runner
-  runs-on: "ubuntu-24.04"
+  runs-on: ubuntu-24.04
 
   steps:
    - name: Clone repo
