@@ -9,7 +9,7 @@ on:
        - 'feature/**'
 
 jobs:
-  # specify Runner details:  Self-hosted or GitHub Runner
+  #specify Runner details:Self-hosted or GitHub Runner
   runs-on: "ubuntu-24.04"
 
   steps:
