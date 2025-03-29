@@ -8,6 +8,10 @@ on:
       - 'staging'
       - 'feature/**'
 
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   app-deploy: 
     #specify Runner details: Self-hosted or GitHub runner
