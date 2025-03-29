@@ -13,7 +13,7 @@ jobs:
     #specify Runner details: Self-hosted or GitHub runner
     runs-on: ubuntu-24.04
 
-     steps:
+    steps:
       - name: Clone repo
         uses: actions/checkout@v4
 
