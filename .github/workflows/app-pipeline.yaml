@@ -1,12 +1,12 @@
 name: Application CI/CD pipeline
 
-#trigger
+# Trigger
 on:
-    push:
-     branches:
-       - 'main'
-       - 'staging'
-       - 'feature/**'
+  push:
+    branches:
+      - 'main'
+      - 'staging'
+      - 'feature/**'
 
 jobs:
   runs-on: ubuntu-24.04
