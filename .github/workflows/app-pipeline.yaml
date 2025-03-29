@@ -11,7 +11,7 @@ on:
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   app-deploy: 
     #specify Runner details: Self-hosted or GitHub runner
@@ -24,10 +24,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-regions: us-east-1
+          aws-region: us-east-1
           role-to-assume: arn:aws:iam::025066251388:role/github-actions-cicd-role-dev
           role-session-name: gha-terraform-session
-
 
       - name: Login to Amazon ECR
         id: login-ecr
