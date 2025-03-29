@@ -9,14 +9,16 @@ on:
       - 'feature/**'
 
 jobs:
-  runs-on: ubuntu-24.04
+  app-deploy: 
+    #specify Runner details: Self-hosted or GitHub runner
+    runs-on: ubuntu-24.04
 
-  steps:
-   - name: Clone repo
-     uses: actions/checkout@v4
+     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
 
-  - name: Build image
-     run: docker build -t reviews-app-backend:0.1 .
-     working-directory: ./api-backend
+      - name: Build image
+        run: docker build -t reviews-app-backend:0.1 .
+        working-directory: ./api-backend
 
      
